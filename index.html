@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Interactive Karnaugh map simulator with minterms, maxterms, Boolean expressions and truth tables." />
+  <title>K-Map Studio — Boolean Simplifier</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#"><span class="brand-mark">K</span><span>K-Map <b>Studio</b></span></a>
+    <nav><a href="#simulator">Simulator</a><a href="#how-it-works">How it works</a></nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="eyebrow"><span class="pulse"></span> DIGITAL LOGIC LAB</div>
+      <h1>Simplify logic.<br /><span>See it clearly.</span></h1>
+      <p class="hero-copy">Explore Karnaugh maps interactively. Choose minterms or maxterms, edit the map, and get a simplified Boolean expression alongside its truth table.</p>
+      <a class="primary-link" href="#simulator">Open simulator <span>↓</span></a>
+      <div class="hero-note"><span class="note-icon">✳</span> Built for learning digital logic, one cell at a time.</div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="art-label">K-MAP / 04 VARIABLES</div>
+        <div class="art-grid">
+          <span>1</span><span>1</span><span>0</span><span>0</span>
+          <span>1</span><span>1</span><span>0</span><span>0</span>
+          <span>0</span><span>0</span><span>1</span><span>1</span>
+          <span>0</span><span>0</span><span>1</span><span>1</span>
+        </div>
+        <div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div>
+        <div class="art-caption">GROUP · REDUCE · SOLVE</div>
+      </div>
+    </section>
+
+    <section class="sim-section" id="simulator">
+      <div class="section-heading">
+        <div><div class="eyebrow">INTERACTIVE WORKSPACE</div><h2>K-Map simulator</h2></div>
+        <span class="live-tag"><span></span> LIVE CALCULATION</span>
+      </div>
+
+      <div class="workspace">
+        <aside class="controls panel">
+          <div class="panel-title"><span class="step">01</span><div><h3>Configure map</h3><p>Choose your logic setup</p></div></div>
+          <label for="variables">Number of variables</label>
+          <select id="variables">
+            <option value="2">2 variables · 4 cells</option>
+            <option value="3">3 variables · 8 cells</option>
+            <option value="4" selected>4 variables · 16 cells</option>
+          </select>
+          <label>Expression type</label>
+          <div class="segmented" role="group" aria-label="Expression type">
+            <button class="segment active" data-mode="minterm" type="button">Minterms · SOP</button>
+            <button class="segment" data-mode="maxterm" type="button">Maxterms · POS</button>
+          </div>
+          <div class="mode-help" id="modeHelp">Select the cells where F = 1. The simulator will minimize the Sum of Products (SOP).</div>
+          <div class="control-divider"></div>
+          <div class="small-label">QUICK ACTIONS</div>
+          <div class="action-grid">
+            <button class="secondary" id="clearBtn" type="button">Clear map</button>
+            <button class="secondary" id="randomBtn" type="button">Random fill</button>
+          </div>
+          <button class="reset-btn" id="resetBtn" type="button">↺ Reset to defaults</button>
+          <div class="tip-card"><span>✦</span><div><b>Quick tip</b><p>Click any cell to switch its value. K-map rows and columns follow Gray-code order so adjacent cells differ by one bit.</p></div></div>
+        </aside>
+
+        <section class="map-panel panel">
+          <div class="panel-title"><span class="step">02</span><div><h3>Karnaugh map</h3><p id="mapSubtitle">4 variables · 16 minterms</p></div><span class="cell-count" id="cellCount">0 / 16 selected</span></div>
+          <div id="kmap" class="kmap-wrap"></div>
+          <div class="map-legend"><span><i class="legend-one"></i> F = 1</span><span><i class="legend-zero"></i> F = 0</span><span class="legend-hint">Tap a cell to edit</span></div>
+          <div class="minterm-output"><span id="indicesLabel">MINTERMS</span><code id="indicesOutput">Σm( )</code><button id="copyIndices" class="copy-btn" type="button">Copy</button></div>
+        </section>
+      </div>
+
+      <div class="results-grid">
+        <section class="panel expression-panel">
+          <div class="panel-title"><span class="step">03</span><div><h3>Simplified expression</h3><p>Reduced Boolean function</p></div></div>
+          <div class="expression-box">
+            <div class="expression-label" id="expressionTypeLabel">SUM OF PRODUCTS (SOP)</div>
+            <div class="expression" id="expression">F = 0</div>
+            <button class="copy-expression" id="copyExpression" type="button">▢ Copy expression</button>
+          </div>
+          <p class="result-footnote" id="expressionNote">Expression updates automatically when you change a cell.</p>
+        </section>
+        <section class="panel truth-panel">
+          <div class="panel-title"><span class="step">04</span><div><h3>Truth table</h3><p>Every input combination</p></div><button id="downloadCsv" class="copy-btn" type="button">Export CSV ↓</button></div>
+          <div class="table-wrap"><table id="truthTable"></table></div>
+        </section>
+      </div>
+    </section>
+
+    <section class="learn-section" id="how-it-works">
+      <div class="eyebrow">THE BASICS</div><h2>From truth table to simpler logic.</h2>
+      <div class="learn-cards">
+        <article><span class="learn-number">01</span><h3>Choose your cells</h3><p>For minterms, mark the combinations where the output is 1. For maxterms, mark the combinations where the output is 0.</p></article>
+        <article><span class="learn-number">02</span><h3>Find the pattern</h3><p>K-maps arrange combinations in Gray-code order. Adjacent 1s or 0s can be grouped in powers of two, including across edges.</p></article>
+        <article><span class="learn-number">03</span><h3>Read the result</h3><p>The simulator calculates a minimized SOP or POS expression and displays the corresponding truth table.</p></article>
+      </div>
+    </section>
+  </main>
+  <footer><a class="brand" href="#"><span class="brand-mark">K</span><span>K-Map <b>Studio</b></span></a><span>Made for learning digital logic.</span><a href="#simulator">Back to simulator ↑</a></footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>
