@@ -3,7 +3,7 @@
 A responsive, no-build-step Karnaugh map simulator made with HTML, CSS and vanilla JavaScript.
 
 ## Live Demo
-https://nishthamishra13.github.io/kmap-simulator/?utm_source=chatgpt.com
+https://kmap-studio-ol2k25wph-nishthamishra13.vercel.app/
 
 ## Features
 - 2-, 3-, and 4-variable maps (4, 8, or 16 cells)
